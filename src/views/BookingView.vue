@@ -10,7 +10,7 @@
 export default {
   name: "HomeView",
   // components: {
-  //   HelloWorld,
-  // },
+  //   HelloWorld
+  // }
 };
 </script>
