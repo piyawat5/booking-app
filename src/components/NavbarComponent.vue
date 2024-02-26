@@ -2,25 +2,38 @@
   <div class="nav-container">
     <nav>
       <img alt="logo" height="20px" :src="require('@/assets/PIYA.png')" />
-      <router-link v-for="(list, i) in routes" :key="i" :to="list.path">
+      <router-link v-for="(list, i) in menus" :key="i" :to="list.path">
         {{ list.name }}
       </router-link>
     </nav>
-    <button class="account">เข้าสู่ระบบ</button>
+    <v-btn outlined rounded color="primary100"
+      >เข้าสู่ระบบ <v-icon right dark> mdi-login </v-icon></v-btn
+    >
   </div>
 </template>
 
 <script lang="ts">
-import { routes } from "../router/index";
+import { colors } from "@/main";
+import { Menu } from "./Type";
 
 export default {
   setup() {
-    return { routes };
+    const menus: Menu[] = [
+      { name: "หน้าแรก", path: "/" },
+      { name: "การจอง", path: "/booking" },
+      { name: "เกี่ยวกับเรา", path: "/about" },
+      { name: "แอดมิน", path: "/admin" },
+    ];
+
+    return { menus, colors };
   },
 };
 </script>
 
 <style scoped>
+.fb-btn.v-btn--outlined {
+  border: thin solid #cccccc;
+}
 img {
   margin: 2px;
 }
@@ -34,14 +47,14 @@ img {
   max-width: 840px;
   display: flex;
   align-items: center;
-  gap: 48px;
+  gap: 24px;
 }
 
 nav {
   width: 100%;
   border-radius: 40px;
   padding: 16px;
-  background: hsla(0, 0%, 19%, 0.506);
+  background: hsla(0, 0%, 19%, 0.727);
   display: flex;
   justify-content: space-between;
 }
@@ -52,6 +65,7 @@ nav a {
 }
 
 .account {
+  margin-right: 24px;
   width: 116px;
 }
 

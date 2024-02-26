@@ -3,27 +3,33 @@ import HomeView from '../views/HomeView.vue'
 import AboutViewVue from '../views/AboutView.vue'
 import BookingViewVue from '../views/BookingView.vue'
 import AdminViewVue from '../views/AdminView.vue'
+import AnnounceViewVue from '@/views/AnnounceView.vue'
 
 export const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    name: 'หน้าแรก',
+    name: 'home',
     component: HomeView
   },
   {
     path: '/booking',
-    name: 'การจอง',
+    name: 'booking',
     component: BookingViewVue
   },
   {
     path: '/about',
-    name: 'เกี่ยวกับเรา',
+    name: 'about',
     component: AboutViewVue
   },
   {
     path: '/admin',
-    name: 'แอดมิน',
+    name: 'admin',
     component: AdminViewVue
+  },
+  {
+    path: '/announce/:id',
+    name: 'announce',
+    component: AnnounceViewVue
   },
 ]
 
