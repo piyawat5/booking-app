@@ -1,9 +1,13 @@
 <template>
   <div>
     <div v-if="hasUser">
-      <span>{{ number }}</span>
-      <span>{{ user.firstName }} {{ user.lastName }}</span>
-      <!-- <div>{{  }}</div> -->
+      <div class="info-container">
+        <span>{{ number }}</span>
+        <span>{{ user.firstName }} {{ user.lastName }}</span>
+      </div>
+      <div class="avatar">
+        <AvatarComponent :custom-avatar="avatar"></AvatarComponent>
+      </div>
     </div>
     <div class="chair-container">
       <img alt="chair" height="50" :src="require('@/assets/Vector.png')" />
@@ -18,7 +22,8 @@ interface Props {
   user: User;
 }
 import { PropType, onMounted, ref } from "vue";
-import { User } from "../components/Type";
+import { CustomAvatar, User } from "../components/Type";
+import AvatarComponent from "./AvatarComponent.vue";
 
 export default {
   props: {
@@ -33,17 +38,22 @@ export default {
   },
   setup(props: Props) {
     const hasUser = ref<boolean>(true);
-
+    const avatar = ref({
+      hair: "hair1",
+      body: "body1",
+      back: "back1",
+      hat: "hat1",
+      eye: "eye1",
+    } as CustomAvatar);
     const checkUser = () => {
       if (props.user) {
         hasUser.value = true;
       }
     };
-
     onMounted(checkUser);
-
-    return { hasUser };
+    return { hasUser, avatar };
   },
+  components: { AvatarComponent },
 };
 </script>
 
@@ -53,10 +63,21 @@ export default {
   width: 50px;
 }
 
+.info-container {
+  position: relative;
+  top: -20px;
+}
+
 .absolute {
   position: absolute;
   top: 12px;
   left: 50%;
   transform: translate(-50%, -50%);
+  z-index: 0;
+}
+
+.avatar {
+  position: absolute;
+  top: 2px;
 }
 </style>

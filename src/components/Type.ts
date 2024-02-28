@@ -1,7 +1,7 @@
 
 export enum ThemeButtonEnum {
     PRIMARY = "PRIMARY",
-    LIGHT = "LIGHT",
+    OUTLINE = "OUTLINE",
 }
 
 export enum TitleActionEnum {

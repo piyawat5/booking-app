@@ -17,8 +17,11 @@ import NavbarComponent from "./components/NavbarComponent.vue";
   font-family: "IBM Plex Sans Thai", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: #eaeaea;
   overflow: hidden;
+}
+
+body {
+  background: #eaeaea;
 }
 
 /* route transitions */

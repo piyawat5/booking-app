@@ -75,6 +75,7 @@ export default {
 }
 
 .icon-container {
+  border-radius: 4px 0 0 4px;
   padding: 12px;
   background: #ce1212;
   color: white;
@@ -82,6 +83,8 @@ export default {
 
 .text-container {
   width: 100%;
+  border-radius: 0 4px 4px 0px;
+
   border-bottom: 4px solid #ce1212;
   font-weight: 500;
 }

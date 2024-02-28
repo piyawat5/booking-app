@@ -44,7 +44,7 @@ img {
   transform: translateX(-50%);
   z-index: 100;
   width: 100%;
-  max-width: 840px;
+  max-width: 900px;
   display: flex;
   align-items: center;
   gap: 24px;

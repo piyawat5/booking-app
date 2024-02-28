@@ -1,30 +1,37 @@
 <template>
-  <div class="home">
-    <ChairComponent></ChairComponent>
-    <AvatarComponent :customAvatar="avatar"></AvatarComponent>
+  <div class="page-container">
+    <TitleComponent></TitleComponent>
+    <div class="meeting-room-container">
+      <MeetingRoomComponent></MeetingRoomComponent>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
-import AvatarComponent from "@/components/AvatarComponent.vue";
-import ChairComponent from "@/components/ChairComponent.vue";
-import { CustomAvatar } from "@/components/Type";
-import { ref } from "vue";
+import MeetingRoomComponent from "@/components/MeetingRoomComponent.vue";
+import TitleComponent from "@/components/TitleComponent.vue";
 
 // @ is an alias to /src
 
 export default {
   name: "BookingView",
-  components: { ChairComponent, AvatarComponent },
+  components: { MeetingRoomComponent, TitleComponent },
   setup() {
-    const avatar = ref({
-      hair: "hair1",
-      body: "body1",
-      back: "back1",
-      hat: "hat1",
-      eye: "eye1",
-    } as CustomAvatar);
-    return { avatar };
+    return {};
   },
 };
 </script>
+
+<style scoped>
+.page-container {
+  margin: 100px auto;
+}
+.meeting-room-container {
+  border-radius: 4px;
+  background: white;
+  width: 100%;
+  margin: auto;
+  padding: 24px 0;
+  max-width: 900px;
+}
+</style>

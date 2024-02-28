@@ -68,6 +68,7 @@ export default {
 
 <style scoped>
 .announce-container {
+  border-radius: 4px;
   width: 100%;
   max-width: 900px;
   margin: 24px auto;

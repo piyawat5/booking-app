@@ -57,6 +57,7 @@ export default {
 .avatar-container {
   position: relative;
   width: fit-content;
+  z-index: 2;
 }
 
 .hair {
@@ -64,21 +65,21 @@ export default {
   position: absolute;
   left: 9px;
   top: 1px;
-  z-index: 3;
+  z-index: 4;
 }
 .hat {
   height: 22px;
   position: absolute;
   left: 16px;
   top: -9px;
-  z-index: 4;
+  z-index: 5;
 }
 .back {
   height: 48px;
   position: absolute;
   left: 0px;
   top: 12px;
-  z-index: 0;
+  z-index: 1;
 }
 .body {
   height: 25px;
@@ -90,10 +91,10 @@ export default {
 }
 
 .eye {
-  height: 22px;
+  height: 14px;
   position: absolute;
-  left: 16px;
-  top: -9px;
+  left: 17.2px;
+  top: 10px;
   z-index: 4;
 }
 </style>
