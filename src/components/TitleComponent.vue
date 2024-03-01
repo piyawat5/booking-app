@@ -21,6 +21,7 @@ interface Props {
 }
 
 export default {
+  name: "TitleComponent",
   props: {
     text: {
       type: String,
