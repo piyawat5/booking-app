@@ -14,6 +14,7 @@ export default {
     const announceId = ref("");
 
     onMounted(() => {
+      window.scrollTo(0, 0);
       announceId.value = route.params.id;
     });
 

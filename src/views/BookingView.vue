@@ -10,6 +10,7 @@
 <script lang="ts">
 import MeetingRoomComponent from "@/components/MeetingRoomComponent.vue";
 import TitleComponent from "@/components/TitleComponent.vue";
+import { onBeforeMount } from "vue";
 
 // @ is an alias to /src
 
@@ -17,6 +18,9 @@ export default {
   name: "BookingView",
   components: { MeetingRoomComponent, TitleComponent },
   setup() {
+    onBeforeMount(() => {
+      window.scrollTo(0, 0);
+    });
     return {};
   },
 };

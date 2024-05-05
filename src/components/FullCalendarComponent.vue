@@ -23,10 +23,18 @@
           v-model.trim="formBody.title"
         />
         <v-text-field
-          label="Date *"
+          label="Start date *"
           :readonly="loading"
           :rules="[(v) => !!v || 'Date is required']"
-          v-model.trim="formBody.date"
+          :disabled="true"
+          v-model.trim="formBody.startDate"
+        />
+        <v-text-field
+          label="End date *"
+          :readonly="loading"
+          :rules="[(v) => !!v || 'Date is required']"
+          :disabled="true"
+          v-model.trim="formBody.endDate"
         />
       </v-col>
       <!-- @input="(e: Event)=> {
@@ -43,16 +51,16 @@
 <script lang="ts">
 import FullCalendar from "@fullcalendar/vue3";
 import dayGridPlugin from "@fullcalendar/daygrid";
-import interactionPlugin, { DateClickArg } from "@fullcalendar/interaction";
+import interactionPlugin from "@fullcalendar/interaction";
 import {
   CalendarOptions,
   DateSelectArg,
   DateSpanApi,
-  DateUnselectArg,
+  // DateUnselectArg,
   EventInput,
 } from "@fullcalendar/core";
 import timeGridPlugin from "@fullcalendar/timegrid";
-import { ref, Ref } from "vue";
+import { onMounted, ref, Ref } from "vue";
 import { reactive } from "vue";
 
 export default {
@@ -88,7 +96,7 @@ export default {
       // },
       weekNumbers: true,
       selectable: true,
-      unselectAuto: true,
+      unselectAuto: false,
       unselectCancel: "form",
       selectMirror: true,
       selectOverlap: () => {
@@ -132,12 +140,19 @@ export default {
         // } else {
         //   alert("get api");
         // }
-        console.log(selectionInfo);
+
+        calendarOptions.value.events = (
+          calendarOptions.value.events as EventInput[]
+        ).filter((item) => item.backgroundColor != "red");
+
+        console.log("select", selectionInfo);
+        formBody.startDate = selectionInfo.startStr;
+        formBody.endDate = selectionInfo.endStr;
       },
-      unselect: (jsEvent?: DateUnselectArg) => {
-        // doesn’t happen when unselectAuto is false
-        console.log(`${jsEvent} `);
-      },
+      // unselect: (jsEvent?: DateUnselectArg) => {
+      //   // doesn’t happen when unselectAuto is false
+      //   console.log("unselect", `${jsEvent} `);
+      // },
       nowIndicator: true,
       // now: () => {
       //   return "2024-02-27T13:00:00";
@@ -147,17 +162,17 @@ export default {
 
       // hiddenDays: [0, 1],
       weekends: true,
-      dateClick: (value) => {
-        //click space (not event exist)
-        handleDateClick(value);
-      },
+      // dateClick: (value) => {
+      //   //click space (not event exist)
+      //   // handleDateClick(value);
+      // },
       eventOverlap: false,
       headerToolbar: {
         left: "prev,next today",
         right: "title",
       },
       footerToolbar: {
-        right: "dayGridMonth,timeGridWeek,timeGridDay",
+        right: "timeGridWeek,timeGridDay",
       },
       eventMouseEnter: (info) => {
         console.log("hover", info.event);
@@ -175,16 +190,17 @@ export default {
       eventChange: (changeInfo) => {
         console.log("changeEvent", changeInfo.event);
       },
-      eventClick: (clickInfo) => {
-        //click event exist
-        if (
-          confirm(
-            `Are you sure you want to delete the event '${clickInfo.event.title}'`
-          )
-        ) {
-          clickInfo.event.remove();
-        }
-      },
+      //use for admin level
+      // eventClick: (clickInfo) => {
+      //   //click event exist
+      //   if (
+      //     confirm(
+      //       `Are you sure you want to delete the event '${clickInfo.event.title}'`
+      //     )
+      //   ) {
+      //     clickInfo.event.remove();
+      //   }
+      // },
       eventResize: function (info) {
         alert(
           info.event.title + " end is now " + info.event?.end?.toISOString()
@@ -197,22 +213,37 @@ export default {
 
       events: [
         {
-          title: "โครงการพัฒนา พนักงานครั้งที่22",
-          start: "2024-03-06T10:00:00",
+          title: "",
+          start: "2024-05-08T10:00:00",
           interactive: true,
-          backgroundColor: "#ee5555",
-          borderColor: "#ee5555",
+          backgroundColor: "red",
+          borderColor: "red",
           // end: "2024-03-02",
-          overlap: true,
+          // editable: false,
+
+          overlap: false,
+          // display: "background",
+        },
+        {
+          title: "โครงการพัฒนา พนักงานครั้งที่22",
+          start: "2024-05-02T10:00:00",
+          interactive: true,
+          backgroundColor: "#818181",
+          borderColor: "#818181",
+          // end: "2024-03-02",
+          editable: false,
+
+          overlap: false,
           // display: "background",
         },
         {
           title: "asdf",
-          start: "2024-02-27T16:00:00",
-          backgroundColor: "#ee5555",
-          borderColor: "#ee5555",
+          start: "2024-05-02T16:00:00",
+          backgroundColor: "#818181",
+          borderColor: "#818181",
+          editable: false,
           // end: "2024-02-29",
-          overlap: true,
+          overlap: false,
           // display: "background",
         },
       ] as EventInput[],
@@ -222,7 +253,8 @@ export default {
 
     const formBody = reactive({
       title: "",
-      date: "" as any,
+      startDate: "" as any,
+      endDate: "" as any,
     });
     const required = (v: any) => {
       return !!v || "Field is required";
@@ -233,13 +265,9 @@ export default {
       loading.value = true;
 
       setTimeout(() => {
-        calendarOptions.value = {
-          ...calendarOptions.value,
-          events: [
-            ...(calendarOptions.value?.events as EventInput[]),
-            { ...formBody },
-          ],
-        };
+        alert(
+          `จองห้องสำเร็จ ช่วงเวลาการจอง เริ่ม ${formBody.startDate}  จนถึง ${formBody.endDate}`
+        );
         loading.value = false;
       }, 1500);
     };
@@ -248,12 +276,23 @@ export default {
       calendarOptions.value.weekends = !calendarOptions.value.weekends;
     };
 
-    const handleDateClick = (value: DateClickArg) => {
-      console.log(value);
+    onMounted(() => {
+      let autoField = (calendarOptions.value.events as EventInput[]).find(
+        (item) => item.backgroundColor == "red"
+      );
 
-      // alert(`date click ${value.dateStr} ${JSON.stringify(value.view)}`);
-      // value.dayEl.style.backgroundColor = "red";
-    };
+      if (autoField) {
+        formBody.startDate = autoField?.start;
+        formBody.endDate = autoField?.end;
+      }
+    });
+
+    // const handleDateClick = (value: DateClickArg) => {
+    //   console.log(value);
+
+    //   // alert(`date click ${value.dateStr} ${JSON.stringify(value.view)}`);
+    //   // value.dayEl.style.backgroundColor = "red";
+    // };
 
     return {
       calendarOptions,

@@ -1,7 +1,11 @@
 <template>
   <div class="avatar-container">
     <div v-for="item in customType" :key="item">
-      <img v-if="avatar[item]" :class="item" :src="getImgUrl(avatar[item])" />
+      <img
+        v-if="avatar[item]"
+        :class="item"
+        :src="getImgUrl(avatar[item] || '')"
+      />
     </div>
     <v-icon size="xxx-large" style="color: rgb(255, 215, 166)"
       >mdi-account</v-icon

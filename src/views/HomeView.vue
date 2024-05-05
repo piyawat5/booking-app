@@ -46,6 +46,7 @@
 
 <script>
 // @ is an alias to /src
+import { onBeforeMount } from "vue";
 import TitleComponent from "@/components/TitleComponent.vue";
 import { colors } from "../main";
 import { TitleActionEnum } from "@/components/Type";
@@ -55,6 +56,9 @@ import AnimateScroll from "@/components/AnimateScroll.vue";
 export default {
   name: "HomeView",
   setup() {
+    onBeforeMount(() => {
+      window.scrollTo(0, 0);
+    });
     return { colors, TitleActionEnum };
   },
   components: { TitleComponent, AnnounceComponent, AnimateScroll },

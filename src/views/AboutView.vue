@@ -14,6 +14,7 @@
 import FullCalendarComponent from "@/components/FullCalendarComponent.vue";
 import TitleComponent from "@/components/TitleComponent.vue";
 import { TitleActionEnum } from "@/components/Type";
+import { onBeforeMount } from "vue";
 
 export default {
   name: "AboutView",
@@ -22,6 +23,9 @@ export default {
     TitleComponent,
   },
   setup() {
+    onBeforeMount(() => {
+      window.scrollTo(0, 0);
+    });
     return { TitleActionEnum };
   },
 };

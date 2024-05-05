@@ -21,7 +21,7 @@ import NavbarComponent from "./components/NavbarComponent.vue";
 }
 
 body {
-  background: #eaeaea;
+  background: #f7f7f7;
 }
 
 /* route transitions */

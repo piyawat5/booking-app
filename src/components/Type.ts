@@ -18,12 +18,12 @@ export interface Menu {
 }
 
 export interface CustomAvatar {
-    hair: string
-    body: string
-    hat: string
-    back: string
-    eye: string
-    skin: string
+    hair?: string
+    body?: string
+    hat?: string
+    back?: string
+    eye?: string
+    skin?: string
 }
 
 export interface User {
