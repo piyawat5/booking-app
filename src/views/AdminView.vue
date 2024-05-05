@@ -1,23 +1,23 @@
 <template>
   <div class="home">
     <img alt="Vue logo" src="../assets/logo.png" />
+    <TitleComponent></TitleComponent>
   </div>
 </template>
 
-<script>
-// @ is an alias to /src
-import { onBeforeMount } from "vue";
+<script lang="ts">
+import TitleComponent from "@/components/TitleComponent.vue";
 
 export default {
   name: "AdminView",
-  // components: {
-  //   HelloWorld
-  // }
+  components: {
+    TitleComponent,
+  },
 
   setup() {
-    onBeforeMount(() => {
-      window.scrollTo(0, 0);
-    });
+    // onBeforeMount(() => {
+    //   window.scrollTo(0, 0);
+    // });
     return {};
   },
 };

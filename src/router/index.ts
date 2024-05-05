@@ -1,35 +1,30 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
-import AboutViewVue from '../views/AboutView.vue'
-import BookingViewVue from '../views/BookingView.vue'
-import AdminViewVue from '../views/AdminView.vue'
-import AnnounceViewVue from '@/views/AnnounceView.vue'
 
 export const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
-    name: 'home',
-    component: HomeView
+    name: 'HomeView',
+    component: () => import('../views/HomeView.vue')
   },
   {
     path: '/booking',
-    name: 'booking',
-    component: BookingViewVue
+    name: 'BookingView',
+    component: () => import('../views/BookingView.vue')
   },
   {
     path: '/about',
-    name: 'about',
-    component: AboutViewVue
+    name: 'AboutView',
+    component: () => import('../views/AboutView.vue')
   },
   {
     path: '/admin',
-    name: 'admin',
-    component: AdminViewVue
+    name: 'AdminView',
+    component: () => import('../views/AdminView.vue'),
   },
   {
     path: '/announce/:id',
-    name: 'announce',
-    component: AnnounceViewVue
+    name: 'AnnounceView',
+    component: () => import('../views/AnnounceView.vue')
   },
 ]
 

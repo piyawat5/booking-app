@@ -1,9 +1,14 @@
 <template>
-  <div class="">Announcement {{ announceId }}</div>
+  <div class="">
+    Announcement {{ announceId }}
+
+    <TitleComponent></TitleComponent>
+  </div>
 </template>
 
-<script>
+<script lang="ts">
 // @ is an alias to /src
+import TitleComponent from "@/components/TitleComponent.vue";
 import { ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
 
@@ -15,14 +20,15 @@ export default {
 
     onMounted(() => {
       window.scrollTo(0, 0);
-      announceId.value = route.params.id;
+      announceId.value = route?.params?.id as string;
+      console.log(announceId.value);
     });
 
     return {
       announceId,
     };
   },
-  components: {},
+  components: { TitleComponent },
 };
 </script>
 

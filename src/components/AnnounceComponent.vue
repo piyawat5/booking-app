@@ -53,7 +53,7 @@ export default {
 
     const navigate = () => {
       const route = {
-        name: "announce",
+        name: "AnnounceView",
         params: {
           id: 1,
         },

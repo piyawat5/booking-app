@@ -12,6 +12,17 @@ export enum TitleActionEnum {
     PROFILE = "PROFILE",
 }
 
+export enum RoomTypeEnum {
+    MEETINGROOM = "MEETINGROOM",
+    AUDITORIUM = "AUDITORIUM"
+}
+
+export enum RoomStatusEnum {
+    FREE = "FREE",
+    MODERATE = "MODERATE",
+    FULL = "FULL"
+}
+
 export interface Menu {
     name: string
     path: string
