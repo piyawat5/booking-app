@@ -6,11 +6,26 @@ export const routes: Array<RouteRecordRaw> = [
     name: 'HomeView',
     component: () => import('../views/HomeView.vue')
   },
+  // {
+  //   path: '/booking/:id',
+  //   name: 'BookingView',
+  //   component: () => import('../views/BookingView.vue')
+  // },
   {
-    path: '/booking',
-    name: 'BookingView',
-    component: () => import('../views/BookingView.vue')
+    path: '/all-booking',
+    name: 'AllBookingView',
+    component: () => import('../views/AllBookingView.vue')
   },
+  // {
+  //   path: '/all-room',
+  //   name: 'AllRoomView',
+  //   component: () => import('../views/BookingView.vue')
+  // },
+  // {
+  //   path: '/form-booking',
+  //   name: 'FormBookingView',
+  //   component: () => import('../views/AllBookingView.vue')
+  // },
   {
     path: '/about',
     name: 'AboutView',

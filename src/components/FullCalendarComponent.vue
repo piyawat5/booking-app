@@ -189,6 +189,9 @@ export default {
       },
       eventChange: (changeInfo) => {
         console.log("changeEvent", changeInfo.event);
+
+        formBody.startDate = changeInfo.event?.start?.toLocaleString();
+        formBody.endDate = changeInfo.event?.end?.toLocaleString();
       },
       //use for admin level
       // eventClick: (clickInfo) => {
@@ -208,6 +211,9 @@ export default {
 
         if (!confirm("confirm your change")) {
           info.revert();
+        } else {
+          formBody.startDate = info.event?.start?.toLocaleString();
+          formBody.endDate = info.event?.end?.toLocaleString();
         }
       },
 

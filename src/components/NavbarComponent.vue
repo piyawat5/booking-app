@@ -20,7 +20,7 @@ export default {
   setup() {
     const menus: Menu[] = [
       { name: "หน้าแรก", path: "/" },
-      { name: "การจอง", path: "/booking" },
+      { name: "ห้องทั้งหมด", path: "/all-booking" },
       { name: "เกี่ยวกับเรา", path: "/about" },
       { name: "แอดมิน", path: "/admin" },
     ];

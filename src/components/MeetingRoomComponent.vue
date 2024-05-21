@@ -1,5 +1,9 @@
 <template>
   <div class="">
+    <button @click="openModal">Open Modal</button>
+    <ModalComponent :isOpen="isModalOpen" @close="closeModal">
+      <p>Modal Content Goes Here</p>
+    </ModalComponent>
     <GetInfoSection></GetInfoSection>
     <div class="table">
       <div
@@ -7,25 +11,44 @@
         :key="item"
         :class="`chair-${item} chair-container`"
       >
-        <ChairComponent :onclick="Hi"></ChairComponent>
+        <ChairComponent
+          :onclick="
+            () => {
+              openModal(item);
+            }
+          "
+        ></ChairComponent>
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
+import { ref } from "vue";
 import ChairComponent from "./ChairComponent.vue";
 import GetInfoSection from "./GetInfoSection.vue";
 import { TitleActionEnum } from "./Type";
+import ModalComponent from "./ModalComponent.vue";
 
 export default {
+  name: "MeetingRoomComponent",
   setup() {
     const Hi = () => {
       alert("Hi");
     };
-    return { Hi, TitleActionEnum };
+    const isModalOpen = ref(false);
+
+    const openModal = (value: any) => {
+      console.log(value);
+      isModalOpen.value = true;
+    };
+
+    const closeModal = () => {
+      isModalOpen.value = false;
+    };
+    return { Hi, TitleActionEnum, openModal, closeModal, isModalOpen };
   },
-  components: { ChairComponent, GetInfoSection },
+  components: { ChairComponent, GetInfoSection, ModalComponent },
 };
 </script>
 

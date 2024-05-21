@@ -1,17 +1,17 @@
 <template>
   <div class="home">
     <img alt="Vue logo" src="../assets/logo.png" />
-    <TitleComponent></TitleComponent>
+    <RoomSelectComponent></RoomSelectComponent>
   </div>
 </template>
 
 <script lang="ts">
-import TitleComponent from "@/components/TitleComponent.vue";
+import RoomSelectComponent from "@/components/RoomSelectComponent.vue";
 
 export default {
   name: "AdminView",
   components: {
-    TitleComponent,
+    RoomSelectComponent,
   },
 
   setup() {

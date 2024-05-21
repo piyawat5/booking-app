@@ -17,29 +17,31 @@
         </div>
       </div>
     </div>
-    <div class="service-container">
-      <title-component
-        text="ประกาศ"
-        :action="TitleActionEnum.ANNOUNCE"
-      ></title-component>
-      <animate-scroll :animationType="'zoom'">
-        <announce-component></announce-component>
-      </animate-scroll>
-      <animate-scroll :animationType="'zoom'">
-        <announce-component></announce-component>
-      </animate-scroll>
-      <animate-scroll :animationType="'zoom'">
-        <announce-component></announce-component>
-      </animate-scroll>
-      <animate-scroll :animationType="'zoom'">
-        <announce-component></announce-component>
-      </animate-scroll>
-      <animate-scroll :animationType="'zoom'">
-        <announce-component></announce-component>
-      </animate-scroll>
-      <animate-scroll :animationType="'zoom'">
-        <announce-component></announce-component>
-      </animate-scroll>
+    <div class="home-content-container">
+      <div class="service-container">
+        <title-component
+          text="ประกาศ"
+          :action="TitleActionEnum.ANNOUNCE"
+        ></title-component>
+        <animate-scroll :animationType="'zoom'">
+          <announce-component></announce-component>
+        </animate-scroll>
+        <animate-scroll :animationType="'zoom'">
+          <announce-component></announce-component>
+        </animate-scroll>
+        <animate-scroll :animationType="'zoom'">
+          <announce-component></announce-component>
+        </animate-scroll>
+        <animate-scroll :animationType="'zoom'">
+          <announce-component></announce-component>
+        </animate-scroll>
+        <animate-scroll :animationType="'zoom'">
+          <announce-component></announce-component>
+        </animate-scroll>
+        <animate-scroll :animationType="'zoom'">
+          <announce-component></announce-component>
+        </animate-scroll>
+      </div>
     </div>
   </div>
 </template>
@@ -66,6 +68,17 @@ export default {
 </script>
 
 <style scoped>
+.home-content-container {
+  position: relative;
+  border-radius: 26px;
+  top: -50px;
+  width: 95%;
+  padding: 34px;
+  margin: auto;
+  box-shadow: inset 0 0 1px 1px#fefefee6, 0 20px 27px#0000000d !important;
+  background-color: #fff !important;
+}
+
 .service-container {
   padding: 0 24px;
 }
@@ -77,7 +90,7 @@ p {
 
 .banner {
   position: relative;
-  height: 500px;
+  height: 550px;
   padding: 171px 216px 0 216px;
   background: url("../assets/meeting.png") center/cover no-repeat;
   color: white;

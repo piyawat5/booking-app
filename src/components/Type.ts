@@ -13,14 +13,14 @@ export enum TitleActionEnum {
 }
 
 export enum RoomTypeEnum {
-    MEETINGROOM = "MEETINGROOM",
-    AUDITORIUM = "AUDITORIUM"
+    MEETINGROOM = "ห้องประชุม",
+    AUDITORIUM = "หอประชุมใหญ่"
 }
 
 export enum RoomStatusEnum {
-    FREE = "FREE",
-    MODERATE = "MODERATE",
-    FULL = "FULL"
+    FREE = "ว่าง",
+    MODERATE = "ปานกลาง",
+    FULL = "หนาแน่น"
 }
 
 export interface Menu {
