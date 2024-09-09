@@ -102,7 +102,6 @@ export default {
       selectOverlap: () => {
         return false;
       },
-
       selectAllow: (selectInfo: DateSpanApi) => {
         getSelectValue.value = {
           start: selectInfo.start,
@@ -134,17 +133,10 @@ export default {
         //   ],
         // };
         // console.log(calendarOptions.value);
-        // const test = prompt("title");
-        // if (test) {
-        //   alert("post api!!!");
-        // } else {
-        //   alert("get api");
-        // }
 
         calendarOptions.value.events = (
           calendarOptions.value.events as EventInput[]
         ).filter((item) => item.backgroundColor != "red");
-
         console.log("select", selectionInfo);
         formBody.startDate = selectionInfo.startStr;
         formBody.endDate = selectionInfo.endStr;
@@ -157,9 +149,7 @@ export default {
       // now: () => {
       //   return "2024-02-27T13:00:00";
       // },
-
       editable: true,
-
       // hiddenDays: [0, 1],
       weekends: true,
       // dateClick: (value) => {
@@ -177,7 +167,6 @@ export default {
       eventMouseEnter: (info) => {
         console.log("hover", info.event);
       },
-
       contentHeight: 400,
       expandRows: true,
       buttonText: {
@@ -216,11 +205,10 @@ export default {
           formBody.endDate = info.event?.end?.toLocaleString();
         }
       },
-
       events: [
         {
           title: "",
-          start: "2024-05-08T10:00:00",
+          start: "2024-08-12T10:00:00",
           interactive: true,
           backgroundColor: "red",
           borderColor: "red",
@@ -232,7 +220,7 @@ export default {
         },
         {
           title: "โครงการพัฒนา พนักงานครั้งที่22",
-          start: "2024-05-02T10:00:00",
+          start: "2024-08-13T10:00:00",
           interactive: true,
           backgroundColor: "#818181",
           borderColor: "#818181",
@@ -244,7 +232,7 @@ export default {
         },
         {
           title: "asdf",
-          start: "2024-05-02T16:00:00",
+          start: "2024-08-14T16:00:00",
           backgroundColor: "#818181",
           borderColor: "#818181",
           editable: false,
@@ -262,6 +250,7 @@ export default {
       startDate: "" as any,
       endDate: "" as any,
     });
+
     const required = (v: any) => {
       return !!v || "Field is required";
     };

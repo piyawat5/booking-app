@@ -43,3 +43,40 @@ export interface User {
     customAvatar: CustomAvatar
     role: string
 }
+
+export interface Member {
+    id: string
+    name: string
+    head: string
+    back: string
+    face: string
+    skin: string
+    hair: string
+    shirt: string
+}
+
+export interface ReserveList {
+    order: number
+    member: Member[]
+    title: string
+    roomName: string
+    date: Date
+    startTime: Date
+    endTime: Date
+    status: string
+}
+
+export interface FilterSection {
+    title?: string
+    room?: number
+    roomMember?: number
+    ref?: number
+    startDate?: Date
+    endDate?: Date
+    startTime?: string
+    endTime?: string
+    status?: number
+    category?: number
+
+
+}

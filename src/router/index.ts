@@ -6,11 +6,11 @@ export const routes: Array<RouteRecordRaw> = [
     name: 'HomeView',
     component: () => import('../views/HomeView.vue')
   },
-  // {
-  //   path: '/booking/:id',
-  //   name: 'BookingView',
-  //   component: () => import('../views/BookingView.vue')
-  // },
+  {
+    path: '/booking/:id',
+    name: 'BookingView',
+    component: () => import('../views/BookingView.vue')
+  },
   {
     path: '/all-booking',
     name: 'AllBookingView',

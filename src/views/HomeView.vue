@@ -10,7 +10,7 @@
           เพื่อความเป็นระเบียบ แบบแผน และความรวดเร็ว
           เราจึงจัดทำเว็ปไซต์สำหรับจองห้องประชุม ภายในบริษัท ปิยะวัตร จำกัด
         </p>
-        <div class="button">
+        <div @click="navigate" class="button">
           <v-btn color="primary100"
             >จองทันที <v-icon right dark> mdi-book-edit-outline </v-icon>
           </v-btn>
@@ -54,6 +54,7 @@ import { colors } from "../main";
 import { TitleActionEnum } from "@/components/Type";
 import AnnounceComponent from "@/components/AnnounceComponent.vue";
 import AnimateScroll from "@/components/AnimateScroll.vue";
+import router from "@/router";
 
 export default {
   name: "HomeView",
@@ -61,7 +62,21 @@ export default {
     onBeforeMount(() => {
       window.scrollTo(0, 0);
     });
-    return { colors, TitleActionEnum };
+
+    const navigate = () => {
+      const route = {
+        name: "BookingView",
+        params: {
+          id: 1,
+        },
+      };
+      router.push(route);
+    };
+    return {
+      navigate,
+      colors,
+      TitleActionEnum,
+    };
   },
   components: { TitleComponent, AnnounceComponent, AnimateScroll },
 };

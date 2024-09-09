@@ -68,8 +68,6 @@ export default {
 <style scoped>
 .title-container {
   display: flex;
-  width: 100%;
-  max-width: 900px;
   margin: 24px auto;
   background: white;
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;

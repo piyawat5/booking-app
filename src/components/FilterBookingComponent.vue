@@ -12,11 +12,9 @@ export default {
 
 <style scoped>
 .filter-wrapper {
-  width: 95%;
-  margin: auto;
-
   padding: 24px;
-  background: white;
+  background: #f8f7f7;
   border-radius: 8px;
+  min-width: 100%;
 }
 </style>
