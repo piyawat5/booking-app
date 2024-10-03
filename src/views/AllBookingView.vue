@@ -182,7 +182,9 @@
         ></CategorySelect>
       </div>
       <div>
-        <v-btn class="mb-2" depressed color="#ce1212"> จองห้องทันที </v-btn>
+        <v-btn @click="navigate" class="mb-2" depressed color="#ce1212">
+          จองห้องทันที
+        </v-btn>
       </div>
     </div>
     <div style="margin: 8px 0px">
@@ -191,6 +193,7 @@
         :items="reserveList"
         :loading="loading"
         hide-default-footer
+        v-model:items-per-page="size"
       >
         <template v-slot:loading>
           <v-skeleton-loader type="table-row@7"></v-skeleton-loader>
@@ -203,7 +206,7 @@
           </div>
           <div v-else>-</div>
         </template>
-        <template v-slot:[`item.actions`]="{}">
+        <template v-slot:[`item.actions`]="{ item }">
           <v-speed-dial location="right center" transition="fade-transition">
             <template v-slot:activator="{ props: activatorProps }">
               <v-fab
@@ -220,27 +223,25 @@
               </v-fab>
             </template>
             <v-btn
-              size="large"
-              style="color: #7a0000"
+              style="color: #ce1212"
               key="3"
-              icon="mdi-tag-check"
+              icon="mdi-check-decagram"
             ></v-btn>
             <v-btn
-              size="large"
-              style="color: #7a0000"
+              @click="actions(item, 'view')"
+              style="color: #12cecb"
               key="2"
-              icon="mdi-eye-circle"
+              icon="mdi-eye"
             ></v-btn>
             <v-btn
-              size="large"
-              style="color: #7a0000"
+              @click="actions(item, 'edit')"
+              style="color: #126dce"
               key="1"
-              icon="mdi-pencil-box"
+              icon="mdi-pencil"
             ></v-btn>
             <v-btn
-              size="large"
               :disabled="true"
-              style="color: #7a0000"
+              style="color: #ce1212"
               key="4"
               icon="mdi-delete"
             ></v-btn>
@@ -277,6 +278,7 @@ import { FilterSection, TitleActionEnum } from "@/components/Type";
 import { VDateInput } from "vuetify/labs/VDateInput";
 import { VTimePicker } from "vuetify/labs/VTimePicker";
 import PaginatorCoumponent from "@/components/PaginatorComponent.vue";
+import router from "@/router";
 
 // @ is an alias to /src
 
@@ -284,6 +286,7 @@ import PaginatorCoumponent from "@/components/PaginatorComponent.vue";
 const count = ref<number>(0);
 const size = ref<number>(15);
 const page = ref<number>(1);
+const token = ref<string>("");
 const headers = ref([
   {
     key: "order",
@@ -323,6 +326,17 @@ watch([page, size], () => {
   getData();
 });
 
+const actions = (item: any, action: string) => {
+  const route = {
+    name: "CreateBookingView",
+    params: {
+      action: action,
+      id: item.id,
+    },
+  };
+  router.push(route);
+};
+
 const room_members = (value: any) => {
   return value.room_members;
 };
@@ -352,6 +366,16 @@ const toggleMenu = async (actions: "START_TIME" | "END_TIME") => {
       }
     });
   }
+};
+
+const navigate = () => {
+  const route = {
+    name: "CreateBookingView",
+    params: {
+      action: "create",
+    },
+  };
+  router.push(route);
 };
 
 const search = async () => {
@@ -404,8 +428,7 @@ const getData = async () => {
         newQuery,
       {
         headers: {
-          Authorization:
-            "Bearer 7|aYOXrFYD0sIqK3OtcJYWcKLEiJ3qSlcoDk4PBUp8f02f4c68",
+          Authorization: "Bearer" + " " + token.value,
         },
       }
     );
@@ -415,10 +438,13 @@ const getData = async () => {
     smallRoom.value = data.smallRoom;
     mediumRoom.value = data.mediumRoom;
     auditorium.value = data.auditorium;
-    reserveList.value = data.reserve.map((item: any, i: number) => ({
+
+    let calOrder = (page.value - 1) * size.value + 1;
+    reserveList.value = data.reserve?.map((item: any) => ({
       ...item,
-      order: i + 1,
+      order: calOrder++,
     }));
+
     loading.value = false;
   } catch (error) {
     console.log(error);
@@ -430,8 +456,7 @@ const getRooms = async () => {
   try {
     const response = await axios.get("http://127.0.0.1:8000/api/room", {
       headers: {
-        Authorization:
-          "Bearer 7|aYOXrFYD0sIqK3OtcJYWcKLEiJ3qSlcoDk4PBUp8f02f4c68",
+        Authorization: "Bearer" + " " + token.value,
       },
     });
     let json = await response.data;
@@ -477,8 +502,7 @@ const getUsers = async () => {
   try {
     let response = await axios.get("http://127.0.0.1:8000/api/user", {
       headers: {
-        Authorization:
-          "Bearer 7|aYOXrFYD0sIqK3OtcJYWcKLEiJ3qSlcoDk4PBUp8f02f4c68",
+        Authorization: "Bearer" + " " + token.value,
       },
     });
     let json = await response.data;
@@ -492,6 +516,8 @@ const getUsers = async () => {
 };
 
 onBeforeMount(() => {
+  const authen = localStorage.getItem("authen");
+  token.value = authen ? JSON.parse(authen).token : "";
   window.scrollTo(0, 0);
   getData();
   getRooms();
@@ -507,6 +533,7 @@ onBeforeMount(() => {
   margin: 100px auto;
   padding: 2px 24px 24px 24px;
   background: white;
+  /* background: #cec112; */
   border-radius: 8px;
 }
 </style>

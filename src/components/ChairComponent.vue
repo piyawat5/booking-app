@@ -37,7 +37,7 @@ export default {
     },
   },
   setup(props: Props) {
-    const hasUser = ref<boolean>(true);
+    const hasUser = ref<boolean>(false);
     const avatar = ref({
       hair: "hair1",
       body: "body1",

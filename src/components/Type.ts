@@ -80,3 +80,42 @@ export interface FilterSection {
 
 
 }
+
+export interface ConfigContainer {
+    name: string
+    color: string
+    configItem: ConfigItem[]
+}
+
+export interface ConfigItem {
+    field: string
+    name: string
+    selected?: boolean
+    value?: string
+}
+
+export interface ConfigRoom {
+    reserve_id: boolean
+    ac: boolean
+    temp: string
+    monitor: boolean
+    micro: boolean
+    add_lightblub: boolean
+    towel: boolean
+    paper: boolean
+    white_board: boolean
+    add_table: boolean
+    water: boolean
+    coffee: boolean
+    juice: boolean
+    apitize: boolean
+    perfume: boolean
+    clean_before: boolean
+    clean_after: boolean
+    security: boolean
+}
+
+export interface Account {
+    email: string
+    password: string
+}

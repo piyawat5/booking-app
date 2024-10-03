@@ -1,5 +1,5 @@
 <template>
-  <navbar-component></navbar-component>
+  <navbar-component v-if="!isLoginPage"></navbar-component>
   <router-view v-slot="{ Component }">
     <transition name="route" mode="out-in">
       <component :is="Component"></component>
@@ -8,7 +8,9 @@
 </template>
 
 <script setup lang="ts">
+import { useRoute } from "vue-router";
 import NavbarComponent from "./components/NavbarComponent.vue";
+import { computed } from "vue";
 
 //Stop error resizeObserver Ref: https://github.com/vuejs/vue-cli/issues/7431
 // eslint-disable-next-line no-unused-vars
@@ -31,6 +33,8 @@ const _ = (window as any).ResizeObserver;
     super(callback);
   }
 };
+const route = useRoute();
+const isLoginPage = computed(() => route.name === "LoginView");
 </script>
 <style>
 @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap");

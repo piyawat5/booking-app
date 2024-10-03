@@ -5,19 +5,24 @@
       <p>Modal Content Goes Here</p>
     </ModalComponent>
     <GetInfoSection></GetInfoSection>
-    <div class="table">
-      <div
-        v-for="item in 13"
-        :key="item"
-        :class="`chair-${item} chair-container`"
-      >
-        <ChairComponent
-          :onclick="
-            () => {
-              openModal(item);
-            }
-          "
-        ></ChairComponent>
+    <div class="room">
+      <div class="table">
+        <div
+          v-for="item in 13"
+          :key="item"
+          :class="`chair-${item} chair-container`"
+        >
+          <animate-scroll :animationType="'fade'">
+            <ChairComponent
+              :number="item"
+              :onclick="
+                () => {
+                  openModal(item);
+                }
+              "
+            ></ChairComponent>
+          </animate-scroll>
+        </div>
       </div>
     </div>
   </div>
@@ -29,6 +34,7 @@ import ChairComponent from "./ChairComponent.vue";
 import GetInfoSection from "./GetInfoSection.vue";
 import { TitleActionEnum } from "./Type";
 import ModalComponent from "./ModalComponent.vue";
+import AnimateScroll from "@/components/AnimateScroll.vue";
 
 export default {
   name: "MeetingRoomComponent",
@@ -48,18 +54,25 @@ export default {
     };
     return { Hi, TitleActionEnum, openModal, closeModal, isModalOpen };
   },
-  components: { ChairComponent, GetInfoSection, ModalComponent },
+  components: { ChairComponent, GetInfoSection, ModalComponent, AnimateScroll },
 };
 </script>
 
 <style scoped>
+.room {
+  background-color: #fff6ee;
+  padding: 1px;
+  margin: auto;
+  max-width: 450px;
+}
+
 .table {
   position: relative;
-  background: #bbbbbb;
+  background: #913f00;
   margin: 150px auto 40px auto;
   height: 553px;
   width: 145px;
-  border-radius: 40px;
+  border-radius: 15px;
 }
 
 .chair-container {
