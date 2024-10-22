@@ -23,6 +23,30 @@ export enum RoomStatusEnum {
     FULL = "หนาแน่น"
 }
 
+export enum ValueEnum {
+    AVATAR = 'AVATAR',
+    LOGOUT = 'LOGOUT'
+}
+
+export enum ConfirmEnum {
+    YES = 'YES',
+    NO = 'NO'
+}
+
+export enum SizeEnum {
+    SM = 'SMALL',
+    LG = 'LARGE'
+}
+
+export enum CustomTypeEnum {
+    HAIR = 'hair',
+    FACE = 'face',
+    HEAD = 'head',
+    BACK = 'back',
+    SHIRT = 'shirt',
+    SKIN = 'skin',
+}
+
 export interface Menu {
     name: string
     path: string
@@ -30,10 +54,10 @@ export interface Menu {
 
 export interface CustomAvatar {
     hair?: string
-    body?: string
-    hat?: string
+    shirt?: string
+    head?: string
     back?: string
-    eye?: string
+    face?: string
     skin?: string
 }
 
@@ -118,4 +142,20 @@ export interface ConfigRoom {
 export interface Account {
     email: string
     password: string
+}
+
+export interface CustomItem {
+    id: string
+    name: string
+    description: string
+}
+
+export interface AllCustoms {
+    type: CustomTypeEnum
+    customItem: CustomItem[]
+}
+
+export interface CustomMenu {
+    type: CustomTypeEnum
+    name: string
 }

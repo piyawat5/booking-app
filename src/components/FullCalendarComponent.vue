@@ -380,6 +380,7 @@ export default {
             }
           );
           reserveRes.value = res.data.reserve;
+          emit("getReserve", reserveRes.value);
           loading.value = false;
         } catch (error) {
           console.log(error);

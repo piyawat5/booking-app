@@ -11,3 +11,19 @@ export const useCounterStore = defineStore('counter', {
     },
   },
 })
+
+export const useLoginStore = defineStore('login', {
+  state: () => ({ isLogin: false }),
+  actions: {
+    login() {
+      this.isLogin = true
+    },
+    logout(navigate?: (route: string) => void) {
+      this.isLogin = false;
+      localStorage.removeItem('authen')
+      if (navigate) {
+        navigate('LoginView')
+      }
+    }
+  }
+})

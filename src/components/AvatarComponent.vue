@@ -3,22 +3,25 @@
     <div v-for="item in customType" :key="item">
       <img
         v-if="avatar[item]"
-        :class="item"
+        :class="size === SizeEnum.SM ? item : item + '-' + 'lg'"
         :src="getImgUrl(avatar[item] || '')"
       />
     </div>
-    <v-icon size="xxx-large" style="color: rgb(255, 215, 166)"
+    <v-icon
+      :size="size === SizeEnum.SM ? 'xxx-large' : '250px'"
+      style="color: rgb(255, 215, 166)"
       >mdi-account</v-icon
     >
   </div>
 </template>
 
 <script lang="ts">
-import { PropType, Ref, onMounted, ref } from "vue";
-import { CustomAvatar } from "./Type";
+import { PropType, Ref, onMounted, ref, watch } from "vue";
+import { CustomAvatar, SizeEnum } from "./Type";
 
 interface Props {
   customAvatar: CustomAvatar;
+  size: SizeEnum;
 }
 
 export default {
@@ -27,9 +30,13 @@ export default {
       type: Object as PropType<CustomAvatar>, // Define the type
       required: true, // Make the prop optional
     },
+    size: {
+      type: String as PropType<SizeEnum>,
+      default: SizeEnum.SM,
+    },
   },
   setup(props: Props) {
-    const avatar = ref(props.customAvatar);
+    const avatar = ref<CustomAvatar>({});
     const customType: Ref<(keyof typeof avatar.value)[]> = ref([]);
 
     const getKeyofCustomAvatar = () => {
@@ -42,17 +49,21 @@ export default {
     // function isAvatarProperty(prop: string): prop is keyof typeof avatar.value {
     //   return customType.value.includes(prop);
     // }
+    const updateAvatar = () => {
+      avatar.value = props.customAvatar;
+      getKeyofCustomAvatar();
+    };
+
+    watch(() => props.customAvatar, updateAvatar);
 
     const getImgUrl = (value: string) => {
       var images = require.context("../assets/", false, /\.png$/);
       return images("./" + value + ".png");
     };
 
-    onMounted(() => {
-      getKeyofCustomAvatar();
-    });
+    onMounted(updateAvatar);
 
-    return { avatar, customType, getImgUrl };
+    return { avatar, customType, getImgUrl, SizeEnum };
   },
 };
 </script>
@@ -63,7 +74,6 @@ export default {
   width: fit-content;
   z-index: 2;
 }
-
 .hair {
   height: 30px;
   position: absolute;
@@ -71,11 +81,25 @@ export default {
   top: 1px;
   z-index: 4;
 }
-.hat {
+.hair-lg {
+  height: 150px;
+  position: absolute;
+  left: 50px;
+  top: 10px;
+  z-index: 4;
+}
+.head {
   height: 22px;
   position: absolute;
   left: 16px;
   top: -9px;
+  z-index: 5;
+}
+.head-lg {
+  height: 100px;
+  position: absolute;
+  left: 75px;
+  top: -40px;
   z-index: 5;
 }
 .back {
@@ -85,7 +109,14 @@ export default {
   top: 12px;
   z-index: 1;
 }
-.body {
+.back-lg {
+  height: 250px;
+  position: absolute;
+  left: 0px;
+  top: 60px;
+  z-index: 1;
+}
+.shirt {
   height: 25px;
   width: 40px;
   position: absolute;
@@ -93,12 +124,27 @@ export default {
   top: 27px;
   z-index: 2;
 }
+.shirt-lg {
+  height: 125px;
+  width: 200px;
+  position: absolute;
+  left: 25px;
+  top: 140px;
+  z-index: 2;
+}
 
-.eye {
+.face {
   height: 14px;
   position: absolute;
   left: 17.2px;
   top: 10px;
+  z-index: 4;
+}
+.face-lg {
+  height: 75px;
+  position: absolute;
+  left: 88px;
+  top: 52px;
   z-index: 4;
 }
 </style>

@@ -1,20 +1,85 @@
 <template>
   <div class="">
-    <button @click="openModal">Open Modal</button>
-    <ModalComponent :isOpen="isModalOpen" @close="closeModal">
-      <p>Modal Content Goes Here</p>
+    <ModalComponent
+      :title="
+        dataModal.user
+          ? 'ที่นั่งหมายเลข' + ' ' + dataModal.id
+          : 'คุณต้องการจองที่นั่งหมายเลข' +
+            ' ' +
+            dataModal.id +
+            ' ' +
+            'หรือไม่ ?'
+      "
+      :isOpen="isModalOpen"
+      @close="closeModal"
+    >
+      <!-- has user -->
+      <div v-if="dataModal.user">
+        <div class="d-flex">
+          <div class="mx-6 mt-2 avatar-background">
+            <AvatarComponent :custom-avatar="avatar"></AvatarComponent>
+          </div>
+          <div class="px-4 d-flex flex-column ga-3" style="flex: 1">
+            <div class="d-flex">
+              <b>ชื่อ: </b>
+              <p class="mr-3 ml-2">
+                {{ dataModal.user.first_name }}
+              </p>
+              <p>
+                {{ dataModal.user.last_name }}
+              </p>
+            </div>
+            <div class="d-flex">
+              <b>ตำแหน่ง: </b>
+              <p class="mr-3 ml-2">
+                {{ dataModal.user?.position }}
+              </p>
+            </div>
+            <div class="d-flex">
+              <b>เบอร์โทรติดต่อ: </b>
+              <p class="mr-3 ml-2">
+                {{ dataModal.user?.tel }}
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="text-right mt-4">
+          <v-btn
+            @click="closeModal"
+            :theme="ThemeButtonEnum.OUTLINE"
+            text="ปิด"
+          ></v-btn>
+        </div>
+      </div>
+      <!-- space -->
+      <div v-else>
+        <div>
+          <p class="mb-4">
+            กรุณายืนยัน หากต้องการจองที่นั่งหมายเลข {{ dataModal.id }}
+          </p>
+          <div class="d-flex justify-space-between">
+            <v-btn
+              @click="closeModal"
+              :theme="ThemeButtonEnum.OUTLINE"
+              text="ปิด"
+            ></v-btn>
+            <v-btn color="#ce1212" @click="onSubmit()" text="ยืนยัน"></v-btn>
+          </div>
+        </div>
+      </div>
     </ModalComponent>
     <GetInfoSection></GetInfoSection>
     <div class="room">
       <div class="table">
         <div
-          v-for="item in 13"
-          :key="item"
-          :class="`chair-${item} chair-container`"
+          v-for="item in seats"
+          :key="item.id"
+          :class="`chair-${item.id} chair-container`"
         >
           <animate-scroll :animationType="'fade'">
             <ChairComponent
-              :number="item"
+              :number="item.id"
+              :user="item.user"
               :onclick="
                 () => {
                   openModal(item);
@@ -25,36 +90,149 @@
         </div>
       </div>
     </div>
+    <v-snackbar v-model="snackbar" vertical>
+      <div class="text-subtitle-1 pb-2">This is a snackbar message</div>
+
+      <p>This is a longer paragraph explaining something</p>
+
+      <template v-slot:actions>
+        <v-btn color="indigo" variant="text" @click="snackbar = false">
+          Close
+        </v-btn>
+      </template>
+    </v-snackbar>
   </div>
 </template>
 
 <script lang="ts">
-import { ref } from "vue";
+import { onMounted, ref, watch } from "vue";
 import ChairComponent from "./ChairComponent.vue";
 import GetInfoSection from "./GetInfoSection.vue";
-import { TitleActionEnum } from "./Type";
+import { CustomAvatar, ThemeButtonEnum, TitleActionEnum } from "./Type";
 import ModalComponent from "./ModalComponent.vue";
 import AnimateScroll from "@/components/AnimateScroll.vue";
+import AvatarComponent from "./AvatarComponent.vue";
+import { setAvatar } from "./helpers";
+import { useRoute } from "vue-router";
+import axios from "axios";
+
+// import axios from "axios";
 
 export default {
   name: "MeetingRoomComponent",
-  setup() {
-    const Hi = () => {
-      alert("Hi");
-    };
+  props: {
+    data: {
+      type: Object,
+      default: null,
+    },
+    actionBooking: {
+      type: String,
+      default: "view",
+    },
+  },
+  setup(props: any, { emit }: any) {
     const isModalOpen = ref(false);
+    const seats = ref<any>([]);
+    const dataModal = ref<any>({});
+    const avatar = ref<CustomAvatar>({});
+    const token = ref<string>("");
+    const reserveId = ref<string>("");
+    const snackbar = ref<boolean>(false);
+
+    watch(
+      () => props.data,
+      (newValue) => {
+        for (const seat of seats.value) {
+          let findUser = newValue.room_members.find(
+            (value: any) => value.seat == seat.id
+          );
+          if (findUser) {
+            seat.user = findUser.users;
+          }
+        }
+      }
+    );
+
+    onMounted(() => {
+      const router = useRoute();
+      if (router.params.id) {
+        reserveId.value = router.params.id as string;
+      }
+      const authen = localStorage.getItem("authen");
+      token.value = authen ? JSON.parse(authen).token : "";
+      for (let i = 1; i <= 13; i++) {
+        let seat = {
+          id: i.toString(),
+          user: null,
+        };
+        seats.value.push(seat);
+      }
+    });
+
+    const onSubmit = async () => {
+      let authen = localStorage.getItem("authen");
+      let userId = "";
+      if (authen) {
+        userId = JSON.parse(authen).user.id;
+      }
+      let checkDuplicated = seats.value?.some(
+        (seat: any) => seat?.user?.id == userId
+      );
+      if (!checkDuplicated) {
+        try {
+          console.log(dataModal.value);
+          let body = {
+            reserve_id: reserveId.value,
+            user_id: userId,
+            seat: dataModal.value.id,
+          };
+          await axios.post("http://127.0.0.1:8000/api/roomMember", body, {
+            headers: {
+              Authorization: "Bearer" + " " + token.value,
+            },
+          });
+          isModalOpen.value = false;
+          emit("getReserve", "getReserve!");
+        } catch (error) {
+          console.log(error);
+        }
+      } else {
+        snackbar.value = true;
+      }
+    };
 
     const openModal = (value: any) => {
-      console.log(value);
+      dataModal.value = value;
+      if (value.user?.user_details) {
+        let userDetail = value.user?.user_details;
+        avatar.value = setAvatar(userDetail);
+      }
       isModalOpen.value = true;
     };
 
     const closeModal = () => {
       isModalOpen.value = false;
     };
-    return { Hi, TitleActionEnum, openModal, closeModal, isModalOpen };
+    return {
+      TitleActionEnum,
+      openModal,
+      closeModal,
+      isModalOpen,
+      seats,
+      dataModal,
+      avatar,
+      onSubmit,
+      ThemeButtonEnum,
+      snackbar,
+    };
   },
-  components: { ChairComponent, GetInfoSection, ModalComponent, AnimateScroll },
+  components: {
+    ChairComponent,
+    GetInfoSection,
+    ModalComponent,
+    AnimateScroll,
+    AvatarComponent,
+  },
 };
 </script>
 
@@ -129,5 +307,10 @@ export default {
 .chair-13 {
   left: 47px;
   top: -79px;
+}
+.avatar-background {
+  height: fit-content;
+  background: rgb(98, 198, 255);
+  border-radius: 100%;
 }
 </style>

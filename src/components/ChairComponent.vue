@@ -18,39 +18,39 @@
 
 <script lang="ts">
 interface Props {
-  number: number;
-  user: User;
+  number: string;
+  user: any;
 }
-import { PropType, onMounted, ref } from "vue";
-import { CustomAvatar, User } from "../components/Type";
+import { PropType, ref, watch } from "vue";
+import { CustomAvatar } from "../components/Type";
 import AvatarComponent from "./AvatarComponent.vue";
+import { setAvatar } from "./helpers";
 
 export default {
   props: {
     number: {
-      type: Number,
-      default: 1,
+      type: String,
+      default: "1",
     },
     user: {
-      type: Object as PropType<User>,
+      type: Object as PropType<any>,
       default: () => ({}),
     },
   },
   setup(props: Props) {
     const hasUser = ref<boolean>(false);
-    const avatar = ref({
-      hair: "hair1",
-      body: "body1",
-      back: "back1",
-      hat: "hat1",
-      eye: "eye1",
-    } as CustomAvatar);
+    const avatar = ref<CustomAvatar>({});
+    watch(
+      () => props.user,
+      () => checkUser()
+    );
     const checkUser = () => {
       if (props.user) {
         hasUser.value = true;
+        let userDetail = props.user.user_details;
+        avatar.value = setAvatar(userDetail);
       }
     };
-    onMounted(checkUser);
     return { hasUser, avatar };
   },
   components: { AvatarComponent },

@@ -4,7 +4,7 @@
       <div class="modal-container" @click.stop>
         <div class="modal-header">
           <h3>{{ title }}</h3>
-          <button @click="closeModal">Close</button>
+          <button @click="closeModal">X</button>
         </div>
         <div class="modal-body">
           <slot></slot>
@@ -56,6 +56,8 @@ export default {
 }
 
 .modal-container {
+  width: 100%;
+  max-width: 400px;
   background-color: white;
   padding: 20px;
   border-radius: 8px;

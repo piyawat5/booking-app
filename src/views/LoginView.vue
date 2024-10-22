@@ -7,7 +7,7 @@
         loop
         src="https://lottie.host/430558a0-2050-404c-a464-5e49bfd2aee9/4WyxSB28R2.json"
       />
-      <div>
+      <form @submit.prevent="submit">
         <h1 class="mb-7">ระบบจองห้องประชุม</h1>
         <v-row>
           <v-col cols="12" sm="12" md="12">
@@ -35,14 +35,14 @@
           <v-col cols="12" sm="12" md="12">
             <v-btn
               :loading="loading"
-              @click="submit"
+              type="submit"
               style="width: 100%"
               :color="'#ce1212'"
               >เข้าสู่ระบบ</v-btn
             >
           </v-col>
         </v-row>
-      </div>
+      </form>
     </div>
     <v-snackbar v-model="snackbar" vertical :color="'red'">
       <div class="text-subtitle-1 pb-2">อุปส์! กรุณาลองใหม่อีกครั้ง</div>
@@ -64,12 +64,13 @@ import { DotLottieVue } from "@lottiefiles/dotlottie-vue";
 import axios from "axios";
 import { ref } from "vue";
 import router from "@/router";
+import { useLoginStore } from "@/store";
 // @ is an alias to /src
 const account = ref<Account>({
-  email: "",
-  password: "",
+  email: "admin04@hotmail.com",
+  password: "1234",
 });
-
+const loginStore = useLoginStore();
 const snackbar = ref<boolean>(false);
 
 const loading = ref<boolean>(false);
@@ -82,7 +83,7 @@ const submit = async () => {
       account.value
     );
     localStorage.setItem("authen", JSON.stringify(res.data));
-
+    loginStore.login();
     loading.value = false;
     const route = {
       name: "HomeView",
@@ -90,6 +91,7 @@ const submit = async () => {
     router.push(route);
   } catch (error) {
     console.log(error);
+    loginStore.logout();
     loading.value = false;
     snackbar.value = true;
   }

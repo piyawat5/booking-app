@@ -86,8 +86,10 @@ watch(
 );
 
 const handleSubmit = async () => {
+  console.log(107, props.reserveRes);
   let body: { [key: string]: boolean | string } = {
-    reserve_id: reserveId.value,
+    reserve_id:
+      actionBooking.value === "create" ? props.reserveRes.id : reserveId.value,
     ac: false,
   };
 

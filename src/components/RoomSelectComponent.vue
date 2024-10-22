@@ -39,7 +39,7 @@
 </template>
 
 <script lang="ts">
-import { PropType, onMounted, ref } from "vue";
+import { PropType, onMounted } from "vue";
 import { RoomStatusEnum, RoomTypeEnum } from "./Type";
 
 export default {
@@ -59,8 +59,7 @@ export default {
     },
   },
   setup() {
-    const someValue = ref();
-    console.log(someValue.value);
+    // const someValue = ref();
 
     onMounted(() => {});
 
