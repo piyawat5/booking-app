@@ -97,8 +97,6 @@ export default {
           { id: "15", description: "-", name: "เคราหมี" },
           { id: "16", description: "-", name: "เคราหมี" },
           { id: "17", description: "-", name: "เคราหมี" },
-          { id: "18", description: "-", name: "เคราหมี" },
-          { id: "19", description: "-", name: "เคราหมี" },
         ],
       },
       {
@@ -116,8 +114,6 @@ export default {
           { id: "9", description: "-", name: "เคราหมี" },
           { id: "10", description: "-", name: "เคราหมี" },
           { id: "11", description: "-", name: "เคราหมี" },
-          { id: "12", description: "-", name: "เคราหมี" },
-          { id: "13", description: "-", name: "เคราหมี" },
         ],
       },
       {

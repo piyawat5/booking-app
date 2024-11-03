@@ -199,9 +199,27 @@
           <v-skeleton-loader type="table-row@7"></v-skeleton-loader>
         </template>
         <template v-slot:[`item.room_members`]="{ item }">
-          <div v-if="room_members(item).length > 0">
+          <div class="avatar-column" v-if="room_members(item).length > 0">
             <div v-for="(member, index) in room_members(item)" :key="index">
-              {{ member.users.first_name }}
+              <div
+                v-if="index < 3"
+                :class="index !== 0 ? 'avatar-item' : ''"
+                :style="{
+                  position: 'relative',
+                  backgroundColor: 'cornflowerblue',
+                  transform: 'scale(0.7)',
+                  borderRadius: '100%',
+                  border: '1px solid white',
+                  zIndex: 10 - index,
+                }"
+              >
+                <AvatarComponent
+                  :custom-avatar="setAvatar(member.users.user_details)"
+                ></AvatarComponent>
+              </div>
+              <div v-if="index >= 3 && room_members(item).length - 1 === index">
+                {{ "+" + " " + (room_members(item).length - 3) }}
+              </div>
             </div>
           </div>
           <div v-else>-</div>
@@ -279,6 +297,8 @@ import { VDateInput } from "vuetify/labs/VDateInput";
 import { VTimePicker } from "vuetify/labs/VTimePicker";
 import PaginatorCoumponent from "@/components/PaginatorComponent.vue";
 import router from "@/router";
+import AvatarComponent from "@/components/AvatarComponent.vue";
+import { setAvatar } from "@/components/helpers";
 
 // @ is an alias to /src
 
@@ -535,5 +555,13 @@ onBeforeMount(() => {
   background: white;
   /* background: #cec112; */
   border-radius: 8px;
+}
+.avatar-column {
+  display: flex;
+  align-items: center;
+}
+
+.avatar-item {
+  margin-left: -28px;
 }
 </style>
