@@ -1,9 +1,10 @@
 <template>
   <div class="">
     <ModalComponent
+      :size="dataModal.user ? SizeEnum.LG : SizeEnum.SM"
       :title="
         dataModal.user
-          ? 'ที่นั่งหมายเลข' + ' ' + dataModal.id
+          ? ''
           : 'คุณต้องการจองที่นั่งหมายเลข' +
             ' ' +
             dataModal.id +
@@ -15,11 +16,19 @@
     >
       <!-- has user -->
       <div v-if="dataModal.user">
-        <div class="d-flex">
+        <div class="d-flex flex-wrap" style="justify-content: center">
           <div class="mx-6 mt-2 avatar-background">
-            <AvatarComponent :custom-avatar="avatar"></AvatarComponent>
+            <AvatarComponent
+              :size="SizeEnum.LG"
+              :custom-avatar="avatar"
+            ></AvatarComponent>
           </div>
-          <div class="px-4 d-flex flex-column ga-3" style="flex: 1">
+          <div class="px-4 d-flex flex-column ga-3">
+            <div class="d-flex mb-5">
+              <h3>
+                {{ "ที่นั่งหมายเลข" + " " + dataModal.id }}
+              </h3>
+            </div>
             <div class="d-flex">
               <b>ชื่อ: </b>
               <p class="mr-3 ml-2">
@@ -39,6 +48,12 @@
               <b>เบอร์โทรติดต่อ: </b>
               <p class="mr-3 ml-2">
                 {{ dataModal.user?.tel }}
+              </p>
+            </div>
+            <div class="d-flex">
+              <b>Email: </b>
+              <p class="mr-3 ml-2">
+                {{ dataModal.user?.email }}
               </p>
             </div>
           </div>
@@ -70,7 +85,54 @@
     </ModalComponent>
     <GetInfoSection></GetInfoSection>
     <div class="room">
+      <DotLottieVue
+        class="tree-component"
+        style="height: 150px; width: 150px"
+        autoplay
+        loop
+        src="https://lottie.host/100726f9-f9af-4a2b-ae53-c40ce65561b7/xbHIAhcCBL.json"
+      />
+      <DotLottieVue
+        class="air-component-1"
+        style="height: 150px; width: 150px"
+        autoplay
+        loop
+        src="https://lottie.host/342702f3-ba8f-4644-986c-2942595e98a5/HiHKX8AnCg.json"
+      />
+      <DotLottieVue
+        class="air-component-2"
+        style="height: 150px; width: 150px"
+        autoplay
+        loop
+        src="https://lottie.host/342702f3-ba8f-4644-986c-2942595e98a5/HiHKX8AnCg.json"
+      />
+
+      <div v-if="status !== '2'" class="is-locked">
+        <v-icon class="icon-locked" :size="150" color="white">mdi-lock</v-icon>
+      </div>
       <div class="table">
+        <div class="bottle-component"></div>
+        <DotLottieVue
+          class="lamp-component"
+          style="height: 150px; width: 150px"
+          autoplay
+          loop
+          src="https://lottie.host/38944677-aad1-41d0-b3f9-7874be129500/lO3s8Gv6kx.json"
+        />
+        <DotLottieVue
+          class="coffee-component"
+          style="height: 50px; width: 50px"
+          autoplay
+          loop
+          src="https://lottie.host/45af2d4d-47a4-4a01-b33c-25299aa6241b/SWEDnWHk5l.json"
+        />
+        <DotLottieVue
+          class="labtop-component"
+          style="height: 100px; width: 100px"
+          autoplay
+          loop
+          src="https://lottie.host/ad0f1d5c-2262-4b5f-8dfe-37f9aac989e1/ni7yBVDMXS.json"
+        />
         <div
           v-for="item in seats"
           :key="item.id"
@@ -108,13 +170,19 @@
 import { onMounted, ref, watch } from "vue";
 import ChairComponent from "./ChairComponent.vue";
 import GetInfoSection from "./GetInfoSection.vue";
-import { CustomAvatar, ThemeButtonEnum, TitleActionEnum } from "./Type";
+import {
+  CustomAvatar,
+  ThemeButtonEnum,
+  TitleActionEnum,
+  SizeEnum,
+} from "./Type";
 import ModalComponent from "./ModalComponent.vue";
 import AnimateScroll from "@/components/AnimateScroll.vue";
 import AvatarComponent from "./AvatarComponent.vue";
 import { setAvatar } from "./helpers";
 import { useRoute } from "vue-router";
 import axios from "axios";
+import { DotLottieVue } from "@lottiefiles/dotlottie-vue";
 
 // import axios from "axios";
 
@@ -138,10 +206,12 @@ export default {
     const token = ref<string>("");
     const reserveId = ref<string>("");
     const snackbar = ref<boolean>(false);
+    const status = ref<string>("");
 
     watch(
       () => props.data,
       (newValue) => {
+        status.value = newValue.status;
         for (const seat of seats.value) {
           let findUser = newValue.room_members.find(
             (value: any) => value.seat == seat.id
@@ -214,6 +284,7 @@ export default {
       isModalOpen.value = false;
     };
     return {
+      status,
       TitleActionEnum,
       openModal,
       closeModal,
@@ -224,6 +295,7 @@ export default {
       onSubmit,
       ThemeButtonEnum,
       snackbar,
+      SizeEnum,
     };
   },
   components: {
@@ -232,16 +304,19 @@ export default {
     ModalComponent,
     AnimateScroll,
     AvatarComponent,
+    DotLottieVue,
   },
 };
 </script>
 
 <style scoped>
 .room {
-  background-color: #fff6ee;
+  position: relative;
+  background-color: #fffdf3;
   padding: 1px;
   margin: auto;
   max-width: 450px;
+  border-radius: 8px;
 }
 
 .table {
@@ -256,6 +331,10 @@ export default {
 .chair-container {
   cursor: pointer;
   position: absolute;
+}
+
+.is-locked:hover {
+  background: rgba(0, 0, 0, 0.658);
 }
 
 .chair-1 {
@@ -312,5 +391,67 @@ export default {
   height: fit-content;
   background: rgb(98, 198, 255);
   border-radius: 100%;
+}
+.is-locked {
+  position: absolute;
+  z-index: 5;
+  background: rgba(0, 0, 0, 0.763);
+  text-align: center;
+  border-radius: 8px;
+  margin: auto;
+  transition: 0.2s linear;
+  width: 100%;
+  height: 100%;
+}
+
+.icon-locked {
+  top: 45%;
+}
+.tree-component {
+  position: absolute;
+  right: -40px;
+  top: -20px;
+}
+.lamp-component {
+  position: absolute;
+  right: -40px;
+  top: -80px;
+}
+.air-component-1 {
+  transform: rotate(90deg);
+  position: absolute;
+  right: -40px;
+  top: 200px;
+}
+.air-component-2 {
+  transform: rotate(90deg);
+  position: absolute;
+  right: -40px;
+  top: 450px;
+}
+
+.bottle-component {
+  position: absolute;
+  height: 30px;
+  width: 30px;
+  top: 20px;
+  left: 15px;
+  /* padding: 171px 216px 0 216px; */
+  background: url("../assets/water-bottle.png") center/cover no-repeat;
+  color: white;
+}
+.coffee-component {
+  position: absolute;
+  top: 15px;
+  left: -10px;
+}
+
+.labtop-component {
+  transition: 0.3s;
+  position: absolute;
+  top: 320px;
+}
+.labtop-component:hover {
+  transform: scale(1.2);
 }
 </style>

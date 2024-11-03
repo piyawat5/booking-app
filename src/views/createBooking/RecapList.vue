@@ -1,6 +1,5 @@
 <template>
   <div class="meeting-room-container">
-    <div>{{ JSON.stringify(props.reserveRes) }}</div>
     <MeetingRoomComponent
       @getReserve="getReserveById()"
       :action-booking="actionBooking"

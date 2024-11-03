@@ -1,7 +1,11 @@
 <template>
   <transition name="modal">
     <div class="modal-mask" v-if="isOpen" @click="closeModalOutside">
-      <div class="modal-container" @click.stop>
+      <div
+        class="modal-container"
+        :class="size === SizeEnum.LG ? 'lg' : ''"
+        @click.stop
+      >
         <div class="modal-header">
           <h3>{{ title }}</h3>
           <button @click="closeModal">X</button>
@@ -15,6 +19,8 @@
 </template>
 
 <script lang="ts">
+import { PropType } from "vue";
+import { SizeEnum } from "./Type";
 export default {
   props: {
     isOpen: {
@@ -24,6 +30,10 @@ export default {
     title: {
       type: String,
       default: "Modal Title",
+    },
+    size: {
+      type: String as PropType<SizeEnum>,
+      default: SizeEnum.SM,
     },
   },
   setup(props: any, { emit }: any) {
@@ -36,7 +46,7 @@ export default {
       }
     };
 
-    return { closeModal, closeModalOutside };
+    return { closeModal, closeModalOutside, SizeEnum };
   },
 };
 </script>
@@ -53,6 +63,11 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.modal-container.lg {
+  width: 100%;
+  max-width: 600px;
 }
 
 .modal-container {

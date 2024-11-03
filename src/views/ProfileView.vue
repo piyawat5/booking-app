@@ -23,6 +23,16 @@
           @selected="onSelected($event)"
           :userDetail="userDetail"
         ></CustomAvatarComponent>
+        <div class="mt-8">
+          <v-btn
+            :loading="loading"
+            color="#ce1212"
+            style="flex: 1"
+            @click="submit()"
+          >
+            บันทึก
+          </v-btn>
+        </div>
       </div>
     </div>
   </div>
@@ -39,13 +49,57 @@ import { onBeforeMount, ref } from "vue";
 import axios from "axios";
 
 const avatar = ref<CustomAvatar>({});
+const loading = ref<boolean>(false);
 
 const userDetail = ref<any>(null);
 
 const token = ref<string>("");
 const user = ref<any>(null);
 
+const submit = async () => {
+  let body = {
+    avatar_back: avatar.value?.back
+      ? avatar.value?.back.replaceAll("back", "")
+      : null,
+    avatar_face: avatar.value?.face
+      ? avatar.value?.face.replaceAll("face", "")
+      : null,
+    avatar_hair: avatar.value?.hair
+      ? avatar.value?.hair.replaceAll("hair", "")
+      : null,
+    avatar_head: avatar.value?.head
+      ? avatar.value?.head.replaceAll("head", "")
+      : null,
+    avatar_shirt: avatar.value?.shirt
+      ? avatar.value?.shirt.replaceAll("shirt", "")
+      : null,
+    avatar_skin: avatar.value?.skin
+      ? avatar.value?.skin.replaceAll("skin", "")
+      : null,
+  };
+
+  loading.value = true;
+
+  try {
+    await axios.put(
+      `http://127.0.0.1:8000/api/userDetail/${userDetail.value?.id}`,
+      body,
+      {
+        headers: {
+          Authorization: "Bearer" + " " + token.value,
+        },
+      }
+    );
+
+    loading.value = false;
+  } catch (error) {
+    console.log(error);
+    loading.value = false;
+  }
+};
+
 const getUserDetail = async () => {
+  loading.value = true;
   try {
     let response = await axios.get(
       "http://127.0.0.1:8000/api/userDetail/" + user.value.id,
@@ -68,8 +122,10 @@ const getUserDetail = async () => {
     // eslint-disable-next-line no-unused-vars
     let { skin, ...newObj } = avatar.value;
     avatar.value = newObj;
+    loading.value = false;
   } catch (error) {
     console.log(error);
+    loading.value = false;
   }
 };
 

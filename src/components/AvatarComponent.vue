@@ -91,7 +91,7 @@ export default {
 .head {
   height: 22px;
   position: absolute;
-  left: 16px;
+  left: 13px;
   top: -9px;
   z-index: 5;
 }

@@ -3,13 +3,13 @@
     <div v-if="hasUser">
       <div class="info-container">
         <span>{{ number }}</span>
-        <span>{{ user.firstName }} {{ user.lastName }}</span>
+        <span>{{ user.first_name }} </span>
       </div>
       <div class="avatar">
         <AvatarComponent :custom-avatar="avatar"></AvatarComponent>
       </div>
     </div>
-    <div class="chair-container">
+    <div :class="hasUser ? '' : 'non-user'" class="chair-container">
       <img alt="chair" height="50" :src="require('@/assets/Vector.png')" />
       <p class="text-white absolute">{{ number }}</p>
     </div>
@@ -58,14 +58,22 @@ export default {
 </script>
 
 <style scoped>
+.non-user:hover {
+  transform: scale(1.2);
+}
+
+.avatar:hover {
+  transform: scale(1.1);
+}
 .chair-container {
+  transition: 0.3s;
   position: relative;
   width: 50px;
 }
 
 .info-container {
-  position: relative;
-  top: -20px;
+  position: absolute;
+  top: -50px;
 }
 
 .absolute {
@@ -78,6 +86,8 @@ export default {
 
 .avatar {
   position: absolute;
-  top: 2px;
+  transition: 0.3s;
+  z-index: 5;
+  top: -22px;
 }
 </style>
