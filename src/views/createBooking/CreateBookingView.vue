@@ -93,6 +93,7 @@ const reserveRes = ref<any>(null);
 const buttonText1 = ref("");
 const buttonText2 = ref("");
 const buttonText3 = ref("");
+const role = ref<number>(0);
 
 const nextStep = (step: "step1" | "step2" | "step3") => {
   if (actionStep1.value !== "VIEW") {
@@ -154,7 +155,11 @@ const checkButtonText = () => {
     //สำหรับ reserver แก้ไข
     buttonText1.value = "บันทึก";
     buttonText2.value = "บันทึก";
-    buttonText3.value = "ส่งขออนุมัติ";
+    if (role.value === 1) {
+      buttonText3.value = "อนุมัติการจอง";
+    } else {
+      buttonText3.value = "ส่งขออนุมัติ";
+    }
   } else if (actionBooking.value === "approve") {
     //สำหรับ checker อนุมัติการจอง
     buttonText1.value = "ถัดไป";
@@ -166,7 +171,13 @@ const checkButtonText = () => {
 onBeforeMount(() => {
   window.scrollTo(0, 0);
   const route = useRoute();
+
+  //get action params
   actionBooking.value = route.params.action as string;
+
+  //get user info
+  const authen = localStorage.getItem("authen");
+  role.value = authen ? JSON.parse(authen).user.role : "";
 
   if (actionBooking.value === "edit" && route.params.id) {
     actionStep1.value = "EDIT";
