@@ -18,6 +18,50 @@
       </div>
     </div>
     <div class="home-content-container">
+      <div class="home-intro-container">
+        <animate-scroll :animationType="'zoom'">
+          <DotLottieVue
+            class="lotties-about-us"
+            autoplay
+            loop
+            src="https://lottie.host/e14a695f-2884-49bf-b21e-f5c9456b0381/Ez5f6Yj88j.json"
+          />
+        </animate-scroll>
+        <div>
+          <div class="intro-box">
+            <div class="feedback-text">
+              <div style="font-size: 40px">เราน้อมรับทุก Feedback</div>
+              <div>เพื่อพัฒนาระบบที่ดียิ่งขึ้น...</div>
+            </div>
+            <p>
+              ระบบนี้ทำขึ้นเพื่อ เป็น personal project สำหรับสมัครงาน ของ นาย
+              ปิยะวัตร พินทุสรศรี และเพื่อฝึกฝน ทักษะในการใช้ framework Laravel
+              11 และ Vue 3
+            </p>
+            <p>
+              วัตถุประสงค์ของระบบนี้ สร้างมาเพื่อจัดการ
+              การจองห้องประชุมภายในบริษัท (ที่สมมติขึ้นมาเอง)
+              เพื่อให้มีความสะดวกสบายของพนักงานมากยิ่งขึ้น
+            </p>
+            <ul>
+              <li>ช่วยลดเวลาในการหาห้องประชุม</li>
+              <li>
+                มีหลักฐานการจองที่ชัดเจน เพื่อป้องกันการจองทับซ้อนกันเกิดขึ้น
+              </li>
+              <li>
+                มีระบบตั้งค่าห้องประชุม
+                เพื่อเพิ่มความรวดเร็วในการจัดเดรียมห้องประชุม
+              </li>
+              <li>สามารถติดตามเวลาการจองได้อย่างแม่นยำ</li>
+              <li>
+                ลดภาระค่าใช้จ่ายในส่วน ค่าไฟส่วนเกิน
+                กรณีที่เปิดเครื่องใช้ไฟฟ้าทิ้งไว้ในห้องที่ไม่มีการจอง
+              </li>
+              <li>พนักงานรับรู้ข่าวสารได้ง่ายขึ้นจากการประกาศ บนหน้าระบบ</li>
+            </ul>
+          </div>
+        </div>
+      </div>
       <div class="service-container">
         <title-component
           text="ประกาศ"
@@ -55,6 +99,7 @@ import { TitleActionEnum } from "@/components/Type";
 import AnnounceComponent from "@/components/AnnounceComponent.vue";
 import AnimateScroll from "@/components/AnimateScroll.vue";
 import router from "@/router";
+import { DotLottieVue } from "@lottiefiles/dotlottie-vue";
 
 export default {
   name: "HomeView",
@@ -65,9 +110,9 @@ export default {
 
     const navigate = () => {
       const route = {
-        name: "BookingView",
+        name: "CreateBookingView",
         params: {
-          id: 1,
+          action: "create",
         },
       };
       router.push(route);
@@ -78,7 +123,12 @@ export default {
       TitleActionEnum,
     };
   },
-  components: { TitleComponent, AnnounceComponent, AnimateScroll },
+  components: {
+    TitleComponent,
+    AnnounceComponent,
+    AnimateScroll,
+    DotLottieVue,
+  },
 };
 </script>
 
@@ -86,7 +136,7 @@ export default {
 .home-content-container {
   position: relative;
   border-radius: 26px;
-  top: -50px;
+  top: -70px;
   width: 95%;
   padding: 34px;
   margin: auto;
@@ -104,14 +154,19 @@ p {
 }
 
 .banner {
+  border-bottom-left-radius: 80px;
+  border-bottom-right-radius: 80px;
   position: relative;
-  height: 550px;
+  min-height: 95vh;
+  /* height: 900px; */
   padding: 171px 216px 0 216px;
   background: url("../assets/meeting.png") center/cover no-repeat;
   color: white;
 }
 
 .banner::after {
+  border-bottom-left-radius: 80px;
+  border-bottom-right-radius: 80px;
   content: "";
   position: absolute;
   top: 0;
@@ -127,14 +182,90 @@ p {
   position: relative;
   z-index: 1;
 }
+.lotties-about-us {
+  height: 500px;
+  width: 500px;
+}
 
 .content {
+  position: absolute;
+  bottom: 50px;
   width: 100%;
   max-width: 615px;
   display: flex;
   flex-direction: column;
   gap: 43px;
 }
+
+.home-intro-container {
+  margin-top: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.intro-box {
+  border-radius: 60px;
+  position: relative;
+  padding: 42px;
+  background-color: #ce1212;
+  color: white;
+  z-index: 10px;
+}
+.feedback-text {
+  background-image: repeating-linear-gradient(
+      0deg,
+      #ce1212,
+      #ce1212 12px,
+      transparent 12px,
+      transparent 22px,
+      #ce1212 22px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      #ce1212,
+      #ce1212 12px,
+      transparent 12px,
+      transparent 22px,
+      #ce1212 22px
+    ),
+    repeating-linear-gradient(
+      180deg,
+      #ce1212,
+      #ce1212 12px,
+      transparent 12px,
+      transparent 22px,
+      #ce1212 22px
+    ),
+    repeating-linear-gradient(
+      270deg,
+      #ce1212,
+      #ce1212 12px,
+      transparent 12px,
+      transparent 22px,
+      #ce1212 22px
+    );
+  background-size: 3px calc(100% + 22px), calc(100% + 22px) 3px,
+    3px calc(100% + 22px), calc(100% + 22px) 3px;
+  background-position: 0 0, 0 0, 100% 0, 0 100%;
+  background-repeat: no-repeat;
+  animation: borderAnimation 0.9s infinite linear;
+  color: black;
+  border-radius: 10px;
+  padding: 30px;
+  position: absolute;
+  top: -115px;
+  left: -50px;
+}
+
+@keyframes borderAnimation {
+  from {
+    background-position: 0 0, -22px 0, 100% -22px, 0 100%;
+  }
+  to {
+    background-position: 0 -22px, 0 0, 100% 0, -22px 100%;
+  }
+}
+
 @media (max-width: 900px) {
   .banner {
     padding: 150px 80px 0 80px;
